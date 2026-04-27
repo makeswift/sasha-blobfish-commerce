@@ -51,10 +51,12 @@ export function getBCVerify({ signed_payload_jwt }: QueryParams) {
     return bigcommerceSigned.verifyJWT(signed_payload_jwt);
 }
 
-export function setSession(session: SessionProps) {
-    db.setUser(session);
-    db.setStore(session);
-    db.setStoreUser(session);
+export async function setSession(session: SessionProps) {
+    await Promise.all([
+        db.setUser(session),
+        db.setStore(session),
+        db.setStoreUser(session),
+    ]);
 }
 
 export async function getSession({ query: { context = '' } }: NextApiRequest) {
@@ -64,6 +66,8 @@ export async function getSession({ query: { context = '' } }: NextApiRequest) {
 
     // Before retrieving session/ hitting APIs, check user
     if (!hasUser) {
+        console.error(`Unauthorized access attempt for storeHash: ${storeHash}, userId: ${user?.id}`);
+
         throw new Error('User is not available. Please login or ensure you have access permissions.');
     }
 

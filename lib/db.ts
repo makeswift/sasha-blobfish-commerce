@@ -1,21 +1,30 @@
-import { Db } from '../types';
-import * as firebaseDB from './dbs/firebase';
-import * as sqlDB from './dbs/mysql';
+// import { Db } from '../types';
+// import * as firebaseDB from './dbs/firebase';
+import * as memoryDB from './dbs/memory';
+// import * as sqlDB from './dbs/mysql';
 
-const { DB_TYPE } = process.env;
+export default memoryDB;
 
-let db: Db;
+// const { DB_TYPE } = process.env;
 
-switch (DB_TYPE) {
-    case 'firebase':
-        db = firebaseDB;
-        break;
-    case 'mysql':
-        db = sqlDB;
-        break;
-    default:
-        db = firebaseDB;
-        break;
-}
+// console.log(`Using ${DB_TYPE} database`);
 
-export default db;
+// let db: Db;
+
+// switch (DB_TYPE) {
+//     case 'firebase':
+//         db = firebaseDB;
+//         break;
+//     case 'in-memory':
+//     case 'memory':
+//         db = memoryDB;
+//         break;
+//     case 'mysql':
+//         db = sqlDB;
+//         break;
+//     default:
+//         db = firebaseDB;
+//         break;
+// }
+
+// export default db;

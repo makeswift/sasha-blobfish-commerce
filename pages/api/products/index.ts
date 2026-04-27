@@ -4,6 +4,10 @@ import { bigcommerceClient, getSession } from '../../../lib/auth';
 export default async function products(req: NextApiRequest, res: NextApiResponse) {
     try {
         const { accessToken, storeHash } = await getSession(req);
+
+        // eslint-disable-next-line no-console
+        console.log('Access Token:', accessToken);
+
         const bigcommerce = bigcommerceClient(accessToken, storeHash);
 
         const { data } = await bigcommerce.get('/catalog/summary');
