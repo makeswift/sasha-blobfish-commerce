@@ -1,63 +1,99 @@
-"""Account mutations."""
+"""
+Account mutations.
+"""
 type AccountMutations {
-  """Adds a user to an account."""
+  """
+  Adds a user to an account.
+  """
   addUserToAccount(input: AddUserToAccountInput!): AddUserToAccountResult
 
-  """Removes a user from an account and all associated entities."""
-  removeUserFromAccount(input: RemoveUserFromAccountInput!): RemoveUserFromAccountResult
+  """
+  Removes a user from an account and all associated entities.
+  """
+  removeUserFromAccount(
+    input: RemoveUserFromAccountInput!
+  ): RemoveUserFromAccountResult
 }
 
 input AddUserToAccountInput {
-  """The email of the user to be added to the account."""
+  """
+  The email of the user to be added to the account.
+  """
   email: String!
 }
 
 type AddUserToAccountResult {
-  """An account the user was added to."""
+  """
+  An account the user was added to.
+  """
   account: Account
 }
 
 input AddUserToStoreInput {
-  """The store the user is to be added."""
+  """
+  The store the user is to be added.
+  """
   storeId: ID!
 
-  """The user to be added to the store."""
+  """
+  The user to be added to the store.
+  """
   user: UserIdentifierInput!
 }
 
 type AddUserToStoreResult {
-  """The ID of the object."""
+  """
+  The ID of the object.
+  """
   storeId: ID!
 }
 
-"""App mutations."""
+"""
+App mutations.
+"""
 type AppMutations {
-  """Creates an Amazon EventSource."""
+  """
+  Creates an Amazon EventSource.
+  """
   createEventSource(input: CreateEventSourceInput!): CreateEventSourceResult
 
-  """Deletes an Amazon EventSource."""
+  """
+  Deletes an Amazon EventSource.
+  """
   deleteEventSource(input: DeleteEventSourceInput!): DeleteEventSourceResult
 }
 
 input CancelSubscriptionInput {
-  """The ID of the Subscription."""
+  """
+  The ID of the Subscription.
+  """
   id: ID!
 }
 
 type CancelSubscriptionResult {
-  """The ID of the Subscription."""
+  """
+  The ID of the Subscription.
+  """
   subscriptionId: ID
 
-  """The date the subscription will be cancelled."""
+  """
+  The date the subscription will be cancelled.
+  """
   cancelledAt: DateTime
 }
 
-"""Input needed to create a CheckoutItem."""
+"""
+Input needed to create a CheckoutItem.
+"""
 input CheckoutItemInput {
-  """A description the line item."""
+  """
+  A description the line item.
+  """
   description: String!
 
-  """How to bill the Merchant for this Product."""
+  """
+  How to bill the Merchant for this Product.
+  """
   pricingPlan: PricingPlanInput!
 
   """
@@ -70,7 +106,9 @@ input CheckoutItemInput {
   """
   redirectUrl: String!
 
-  """The scope for this line item (e.g. store, account)."""
+  """
+  The scope for this line item (e.g. store, account).
+  """
   scope: CheckoutItemScopeInput
 
   """
@@ -83,7 +121,9 @@ input CheckoutItemInput {
 The input information needed to set the CheckoutItemProduct on a CheckoutItem.
 """
 input CheckoutItemProductInput {
-  """Product's unique identifier."""
+  """
+  Product's unique identifier.
+  """
   id: ID
 
   """
@@ -91,7 +131,9 @@ input CheckoutItemProductInput {
   """
   productLevel: String
 
-  """The type of this product (e.g. APPLICATION)."""
+  """
+  The type of this product (e.g. APPLICATION).
+  """
   type: CheckoutItemProductType
 }
 
@@ -99,21 +141,31 @@ input CheckoutItemProductInput {
 The input information needed to set the CheckoutItemScope on a CheckoutItem.
 """
 input CheckoutItemScopeInput {
-  """Scope's unique identifier."""
+  """
+  Scope's unique identifier.
+  """
   id: ID
 
-  """Scope of access for the associated product (e.g. STORE)."""
+  """
+  Scope of access for the associated product (e.g. STORE).
+  """
   type: CheckoutItemScopeType
 }
 
-"""Checkout mutations."""
+"""
+Checkout mutations.
+"""
 type CheckoutMutations {
-  """Creates a Checkout for a Merchant."""
+  """
+  Creates a Checkout for a Merchant.
+  """
   createCheckout(input: CreateCheckoutInput!): CreateCheckoutResult
 }
 
 input CreateCheckoutInput {
-  """Merchant's account UUID."""
+  """
+  Merchant's account UUID.
+  """
   accountId: ID!
 
   """
@@ -123,74 +175,112 @@ input CreateCheckoutInput {
 }
 
 type CreateCheckoutResult {
-  """The Checkout that is created as a result of mutation."""
+  """
+  The Checkout that is created as a result of mutation.
+  """
   checkout: Checkout
 }
 
 input CreateEventSourceInput {
-  """The ID of an app."""
+  """
+  The ID of an app.
+  """
   appId: ID!
 
-  """An Amazon EventSource account ID."""
+  """
+  An Amazon EventSource account ID.
+  """
   awsAccount: String!
 
-  """An event source name."""
+  """
+  An event source name.
+  """
   eventSourceName: String!
 
-  """The region of an event source."""
+  """
+  The region of an event source.
+  """
   eventSourceRegion: AwsRegion!
 }
 
 type CreateEventSourceResult {
-  """The Amazon EventSource created as a result of mutation."""
+  """
+  The Amazon EventSource created as a result of mutation.
+  """
   eventSource: AwsEventSource
 }
 
 input CreateUserInput {
-  """The email of the user to be added to the account."""
+  """
+  The email of the user to be added to the account.
+  """
   email: String!
 
-  """The first name of the user to be added to the account."""
+  """
+  The first name of the user to be added to the account.
+  """
   firstName: String!
 
-  """The last name of the user to be added to the account."""
+  """
+  The last name of the user to be added to the account.
+  """
   lastName: String!
 
-  """The locale of the user to be added to the account."""
+  """
+  The locale of the user to be added to the account.
+  """
   locale: String!
 }
 
 type CreateUserResult {
-  """Created user."""
+  """
+  Created user.
+  """
   user: User
 }
 
 input CreateUserWithPasswordInput {
-  """The email of the user to be added to the account."""
+  """
+  The email of the user to be added to the account.
+  """
   email: String!
 
-  """The first name of the user to be added to the account."""
+  """
+  The first name of the user to be added to the account.
+  """
   firstName: String!
 
-  """The last name of the user to be added to the account."""
+  """
+  The last name of the user to be added to the account.
+  """
   lastName: String!
 
-  """The locale of the user to be added to the account."""
+  """
+  The locale of the user to be added to the account.
+  """
   locale: String!
 
-  """The password of the user to be added to the account."""
+  """
+  The password of the user to be added to the account.
+  """
   password: String!
 
-  """Enter password again to confirm."""
+  """
+  Enter password again to confirm.
+  """
   passwordConfirmation: String!
 }
 
 type CreateUserWithPasswordResult {
-  """Created user."""
+  """
+  Created user.
+  """
   user: User
 }
 
-"""Currency Code."""
+"""
+Currency Code.
+"""
 enum CurrencyCode {
   AED
   AFN
@@ -376,15 +466,21 @@ enum CurrencyCode {
 }
 
 input DeleteEventSourceInput {
-  """The ID of an app."""
+  """
+  The ID of an app.
+  """
   appId: ID!
 
-  """The ID of the object."""
+  """
+  The ID of the object.
+  """
   id: ID!
 }
 
 type DeleteEventSourceResult {
-  """The ID of the object."""
+  """
+  The ID of the object.
+  """
   deletedEventSourceId: ID!
 
   """
@@ -393,9 +489,13 @@ type DeleteEventSourceResult {
   affectedWebhooksIds: [ID!]!
 }
 
-"""Input to create a Money object."""
+"""
+Input to create a Money object.
+"""
 input MoneyInput {
-  """The ISO 4217 currency code."""
+  """
+  The ISO 4217 currency code.
+  """
   currencyCode: CurrencyCode!
 
   """
@@ -405,119 +505,196 @@ input MoneyInput {
 }
 
 type Mutation {
-  """Account mutations."""
+  """
+  Account mutations.
+  """
   account: AccountMutations!
 
-  """Checkout mutations."""
+  """
+  Checkout mutations.
+  """
   checkout: CheckoutMutations!
 
-  """Subscription mutations."""
+  """
+  Subscription mutations.
+  """
   subscription: SubscriptionMutations!
 
-  """User mutations."""
+  """
+  User mutations.
+  """
   user: UserMutations!
 
-  """App mutations."""
+  """
+  App mutations.
+  """
   app: AppMutations!
 }
 
-"""The inputs needed to set the PricingPlan when creating a CheckoutItem."""
+"""
+The inputs needed to set the PricingPlan when creating a CheckoutItem.
+"""
 input PricingPlanInput {
-  """The billing interval for this line item (e.g. ONCE, MONTH, etc)."""
+  """
+  The billing interval for this line item (e.g. ONCE, MONTH, etc).
+  """
   interval: CheckoutItemPricingInterval!
 
-  """The price to charge the merchant per billing interval."""
+  """
+  The price to charge the merchant per billing interval.
+  """
   price: MoneyInput!
 
-  """The number of days to delay billing and allow for a free trial."""
+  """
+  The number of days to delay billing and allow for a free trial.
+  """
   trialDays: Int
 }
 
-"""Input needed to remove a user from an account."""
+"""
+Input needed to remove a user from an account.
+"""
 input RemoveUserFromAccountInput {
-  """The email of the user to be removed from the account."""
+  """
+  The email of the user to be removed from the account.
+  """
   email: String
 
-  """The id of the user to be removed."""
+  """
+  The id of the user to be removed.
+  """
   userId: ID
 }
 
 type RemoveUserFromAccountResult {
-  """The ID of the object."""
+  """
+  The ID of the object.
+  """
   accountId: ID!
 
-  """The ID of the object."""
+  """
+  The ID of the object.
+  """
   userId: ID!
 }
 
 input RemoveUserFromStoreInput {
-  """The store from which user is to be removed."""
+  """
+  The store from which user is to be removed.
+  """
   storeId: ID!
 
-  """The user to be removed."""
+  """
+  The user to be removed.
+  """
   userId: ID!
 }
 
 type RemoveUserFromStoreResult {
-  """The store from which the user is removed from."""
+  """
+  The store from which the user is removed from.
+  """
   storeId: ID!
 
-  """Removed user."""
+  """
+  Removed user.
+  """
   user: User
 }
 
-"""Subscription mutations."""
+"""
+Subscription mutations.
+"""
 type SubscriptionMutations {
-  """Cancels a Subscription for a Merchant."""
+  """
+  Cancels a Subscription for a Merchant.
+  """
   cancelSubscription(input: CancelSubscriptionInput!): CancelSubscriptionResult
 }
 
-"""The user to add to the store."""
+"""
+The user to add to the store.
+"""
 input UserIdentifierInput {
-  """The email of the user to be added to the store."""
+  """
+  The email of the user to be added to the store.
+  """
   email: String
 
-  """The ID of the user to be added."""
+  """
+  The ID of the user to be added.
+  """
   id: ID
 }
 
-"""User mutations."""
+"""
+User mutations.
+"""
 type UserMutations {
-  """Creates a user with password."""
-  createUserWithPassword(input: CreateUserWithPasswordInput!): CreateUserWithPasswordResult @deprecated(reason: "This mutation is deprecated and will be removed in a future release. Use `createUser` instead.")
+  """
+  Creates a user with password.
+  """
+  createUserWithPassword(
+    input: CreateUserWithPasswordInput!
+  ): CreateUserWithPasswordResult
+    @deprecated(
+      reason: "This mutation is deprecated and will be removed in a future release. Use `createUser` instead."
+    )
 
-  """Creates a user."""
+  """
+  Creates a user.
+  """
   createUser(input: CreateUserInput!): CreateUserResult
 
-  """Adds a user to a store."""
+  """
+  Adds a user to a store.
+  """
   addUserToStore(input: AddUserToStoreInput!): AddUserToStoreResult
 
-  """Removes user from a store."""
-  removeUserFromStore(input: RemoveUserFromStoreInput!): RemoveUserFromStoreResult
+  """
+  Removes user from a store.
+  """
+  removeUserFromStore(
+    input: RemoveUserFromStoreInput!
+  ): RemoveUserFromStoreResult
 }
 
-"""An account."""
+"""
+An account.
+"""
 type Account {
-  """Provides account details."""
+  """
+  Provides account details.
+  """
   accountInfo: AccountInfo!
 
-  """Apps owned by the account."""
+  """
+  Apps owned by the account.
+  """
   apps(before: String, after: String, first: Int, last: Int): AppsConnection!
 
   """
   Allows for billing a Merchant for Products on a one-time or recurring basis.
   """
   checkout(
-    """The ID of the object."""
+    """
+    The ID of the object.
+    """
     id: ID!
   ): Checkout
 
-  """The ID of the object."""
+  """
+  The ID of the object.
+  """
   id: ID!
 
-  """The stores related to an account."""
+  """
+  The stores related to an account.
+  """
   stores(
-    """Filter stores by IDs or store hashes."""
+    """
+    Filter stores by IDs or store hashes.
+    """
     filter: StoreFilterInput
     before: String
     after: String
@@ -525,169 +702,290 @@ type Account {
     last: Int
   ): StoreConnection!
 
-  """Subscriptions belonging to the account."""
-  subscriptions(filters: SubscriptionFiltersInput, first: Int, after: String, last: Int, before: String): SubscriptionConnection!
+  """
+  Subscriptions belonging to the account.
+  """
+  subscriptions(
+    filters: SubscriptionFiltersInput
+    first: Int
+    after: String
+    last: Int
+    before: String
+  ): SubscriptionConnection!
 
-  """Users belonging to the account."""
+  """
+  Users belonging to the account.
+  """
   users(before: String, after: String, first: Int, last: Int): UserConnection!
 }
 
-"""Account details."""
+"""
+Account details.
+"""
 type AccountInfo {
-  """The name of an account."""
+  """
+  The name of an account.
+  """
   name: String!
 }
 
-"""An application."""
+"""
+An application.
+"""
 type App {
-  """The ID of the object."""
+  """
+  The ID of the object.
+  """
   id: ID!
 
-  """The app name."""
+  """
+  The app name.
+  """
   name: String!
 
-  """Amazon EventSources."""
-  eventSources(before: String, after: String, first: Int, last: Int): AwsEventSourcesConnection!
+  """
+  Amazon EventSources.
+  """
+  eventSources(
+    before: String
+    after: String
+    first: Int
+    last: Int
+  ): AwsEventSourcesConnection!
 }
 
-"""A connection to a list of items."""
+"""
+A connection to a list of items.
+"""
 type AppsConnection {
-  """Information to aid in pagination."""
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
 
-  """A list of edges."""
+  """
+  A list of edges.
+  """
   edges: [AppsEdge]
 }
 
-"""An edge in a connection."""
+"""
+An edge in a connection.
+"""
 type AppsEdge {
-  """The item at the end of the edge."""
+  """
+  The item at the end of the edge.
+  """
   node: App!
 
-  """A cursor for use in pagination."""
+  """
+  A cursor for use in pagination.
+  """
   cursor: String!
 }
 
-"""An Amazon EventSource."""
+"""
+An Amazon EventSource.
+"""
 type AwsEventSource {
-  """The ID of an object."""
+  """
+  The ID of an object.
+  """
   id: ID!
 
-  """An Amazon EventSource account ID."""
+  """
+  An Amazon EventSource account ID.
+  """
   awsAccount: String!
 
-  """An event source name."""
+  """
+  An event source name.
+  """
   eventSourceName: String!
 
-  """The region of an event source."""
+  """
+  The region of an event source.
+  """
   eventSourceRegion: AwsRegion!
 
-  """An Amazon EventSource resource name."""
+  """
+  An Amazon EventSource resource name.
+  """
   arn: String!
 
-  """Number of webhooks attached to an Amazon EventSource."""
+  """
+  Number of webhooks attached to an Amazon EventSource.
+  """
   webhooksCount: Long!
 }
 
-"""A connection to a list of items."""
+"""
+A connection to a list of items.
+"""
 type AwsEventSourcesConnection {
-  """Information to aid in pagination."""
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
 
-  """A list of edges."""
+  """
+  A list of edges.
+  """
   edges: [AwsEventSourcesEdge]
 }
 
-"""An edge in a connection."""
+"""
+An edge in a connection.
+"""
 type AwsEventSourcesEdge {
-  """The item at the end of the edge."""
+  """
+  The item at the end of the edge.
+  """
   node: AwsEventSource!
 
-  """A cursor for use in pagination."""
+  """
+  A cursor for use in pagination.
+  """
   cursor: String!
 }
 
-"""The Amazon EventSource region."""
+"""
+The Amazon EventSource region.
+"""
 enum AwsRegion {
-  """af-south-1"""
+  """
+  af-south-1
+  """
   AF_SOUTH_1
 
-  """ap-east-1"""
+  """
+  ap-east-1
+  """
   AP_EAST_1
 
-  """ap-northeast-1"""
+  """
+  ap-northeast-1
+  """
   AP_NORTHEAST_1
 
-  """ap-northeast-2"""
+  """
+  ap-northeast-2
+  """
   AP_NORTHEAST_2
 
-  """ap-northeast-3"""
+  """
+  ap-northeast-3
+  """
   AP_NORTHEAST_3
 
-  """ap-southeast-1"""
+  """
+  ap-southeast-1
+  """
   AP_SOUTHEAST_1
 
-  """ap-southeast-2"""
+  """
+  ap-southeast-2
+  """
   AP_SOUTHEAST_2
 
-  """ap-southeast-3"""
+  """
+  ap-southeast-3
+  """
   AP_SOUTHEAST_3
 
-  """ap-southeast-4"""
+  """
+  ap-southeast-4
+  """
   AP_SOUTHEAST_4
 
-  """ap-south-1"""
+  """
+  ap-south-1
+  """
   AP_SOUTH_1
 
-  """ap-south-2"""
+  """
+  ap-south-2
+  """
   AP_SOUTH_2
 
-  """ca-central-1"""
+  """
+  ca-central-1
+  """
   CA_CENTRAL_1
 
-  """eu-central-1"""
+  """
+  eu-central-1
+  """
   EU_CENTRAL_1
 
-  """eu-central-2"""
+  """
+  eu-central-2
+  """
   EU_CENTRAL_2
 
-  """eu-north-1"""
+  """
+  eu-north-1
+  """
   EU_NORTH_1
 
-  """eu-south-1"""
+  """
+  eu-south-1
+  """
   EU_SOUTH_1
 
-  """eu-south-2"""
+  """
+  eu-south-2
+  """
   EU_SOUTH_2
 
-  """eu-west-1"""
+  """
+  eu-west-1
+  """
   EU_WEST_1
 
-  """eu-west-2"""
+  """
+  eu-west-2
+  """
   EU_WEST_2
 
-  """eu-west-3"""
+  """
+  eu-west-3
+  """
   EU_WEST_3
 
-  """il-central-1"""
+  """
+  il-central-1
+  """
   IL_CENTRAL_1
 
-  """me-central-1"""
+  """
+  me-central-1
+  """
   ME_CENTRAL_1
 
-  """sa-east-1"""
+  """
+  sa-east-1
+  """
   SA_EAST_1
 
-  """us-east-1"""
+  """
+  us-east-1
+  """
   US_EAST_1
 
-  """us-east-2"""
+  """
+  us-east-2
+  """
   US_EAST_2
 
-  """us-west-1"""
+  """
+  us-west-1
+  """
   US_WEST_1
 
-  """us-west-2"""
+  """
+  us-west-2
+  """
   US_WEST_2
 }
 
@@ -695,10 +993,14 @@ enum AwsRegion {
 A container for all information needed to charge a Merchant for products on a one-time or recurring basis.
 """
 type Checkout implements Node {
-  """The ID of the object."""
+  """
+  The ID of the object.
+  """
   id: ID!
 
-  """The merchant's account UUID."""
+  """
+  The merchant's account UUID.
+  """
   accountId: ID!
 
   """
@@ -706,10 +1008,19 @@ type Checkout implements Node {
   """
   checkoutUrl: String!
 
-  """The item(s) associated with the checkout."""
-  items(before: String, after: String, first: Int, last: Int): CheckoutItemConnection!
+  """
+  The item(s) associated with the checkout.
+  """
+  items(
+    before: String
+    after: String
+    first: Int
+    last: Int
+  ): CheckoutItemConnection!
 
-  """The current status of the checkout."""
+  """
+  The current status of the checkout.
+  """
   status: CheckoutStatus
 }
 
@@ -717,10 +1028,14 @@ type Checkout implements Node {
 Individual line items describing one-time or recurring charges to be billed to the Merchant upon completing the Checkout.
 """
 type CheckoutItem {
-  """A description of this line item."""
+  """
+  A description of this line item.
+  """
   description: String
 
-  """The pricing plan denoting how to bill the Merchant for this Product."""
+  """
+  The pricing plan denoting how to bill the Merchant for this Product.
+  """
   pricingPlan: CheckoutItemPricingPlan!
 
   """
@@ -728,13 +1043,19 @@ type CheckoutItem {
   """
   product: CheckoutItemProduct!
 
-  """The URL used to redirect the Merchant after completing the Checkout."""
+  """
+  The URL used to redirect the Merchant after completing the Checkout.
+  """
   redirectUrl: String
 
-  """The scope for this Line Item (e.g. store, account)."""
+  """
+  The scope for this Line Item (e.g. store, account).
+  """
   scope: CheckoutItemScope!
 
-  """The status of this line item."""
+  """
+  The status of this line item.
+  """
   status: CheckoutItemStatus
 
   """
@@ -743,21 +1064,33 @@ type CheckoutItem {
   subscriptionId: ID
 }
 
-"""A connection to a list of items."""
+"""
+A connection to a list of items.
+"""
 type CheckoutItemConnection {
-  """Information to aid in pagination."""
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
 
-  """A list of edges."""
+  """
+  A list of edges.
+  """
   edges: [CheckoutItemEdge]
 }
 
-"""An edge in a connection."""
+"""
+An edge in a connection.
+"""
 type CheckoutItemEdge {
-  """The item at the end of the edge."""
+  """
+  The item at the end of the edge.
+  """
   node: CheckoutItem!
 
-  """A cursor for use in pagination."""
+  """
+  A cursor for use in pagination.
+  """
   cursor: String!
 }
 
@@ -775,7 +1108,9 @@ enum CheckoutItemPricingInterval {
   """
   MONTH
 
-  """Charge the Merchant only one time, immediately."""
+  """
+  Charge the Merchant only one time, immediately.
+  """
   ONCE
 
   """
@@ -789,21 +1124,33 @@ enum CheckoutItemPricingInterval {
   SEMIANNUAL
 }
 
-"""The container for all pricing information."""
+"""
+The container for all pricing information.
+"""
 type CheckoutItemPricingPlan {
-  """The billing interval for the subscription."""
+  """
+  The billing interval for the subscription.
+  """
   interval: CheckoutItemPricingInterval
 
-  """The amount to charge for each interval."""
+  """
+  The amount to charge for each interval.
+  """
   price: Money
 
-  """Number of days to delay billing to offer a free trial period."""
+  """
+  Number of days to delay billing to offer a free trial period.
+  """
   trialDays: Int
 }
 
-"""The product the Merchant is purchasing."""
+"""
+The product the Merchant is purchasing.
+"""
 type CheckoutItemProduct {
-  """The unique ID of the product."""
+  """
+  The unique ID of the product.
+  """
   id: ID
 
   """
@@ -811,22 +1158,34 @@ type CheckoutItemProduct {
   """
   productLevel: String
 
-  """The type of product (e.g. APPLICATION)."""
+  """
+  The type of product (e.g. APPLICATION).
+  """
   type: CheckoutItemProductType
 }
 
-"""The type of product."""
+"""
+The type of product.
+"""
 enum CheckoutItemProductType {
-  """Type for applications available in the BigCommerce App Marketplace."""
+  """
+  Type for applications available in the BigCommerce App Marketplace.
+  """
   APPLICATION
 }
 
-"""The scope to which the purchase should be limited."""
+"""
+The scope to which the purchase should be limited.
+"""
 type CheckoutItemScope {
-  """The unique ID of the scope."""
+  """
+  The unique ID of the scope.
+  """
   id: ID
 
-  """Where to scope access for this item (e.g. STORE)."""
+  """
+  Where to scope access for this item (e.g. STORE).
+  """
   type: CheckoutItemScopeType
 }
 
@@ -834,11 +1193,15 @@ type CheckoutItemScope {
 The scope of access to be granted upon successful completion of the Checkout.
 """
 enum CheckoutItemScopeType {
-  """Limits access for the purchased product to a particular Store."""
+  """
+  Limits access for the purchased product to a particular Store.
+  """
   STORE
 }
 
-"""The current status of the Checkout Item."""
+"""
+The current status of the Checkout Item.
+"""
 enum CheckoutItemStatus {
   """
   The Merchant has been invoiced and any necessary provisioning or Subscription updates have been completed.
@@ -856,7 +1219,9 @@ enum CheckoutItemStatus {
   PROCESSING
 }
 
-"""The current status of the Checkout."""
+"""
+The current status of the Checkout.
+"""
 enum CheckoutStatus {
   """
   The Merchant has been invoiced and any necessary provisioning or Subscription updates have been completed.
@@ -874,170 +1239,285 @@ enum CheckoutStatus {
   PROCESSING
 }
 
-"""Collection details."""
+"""
+Collection details.
+"""
 type CollectionInfo {
-  """The total number of items in the collection."""
+  """
+  The total number of items in the collection.
+  """
   totalItems: Long
 }
 
-"""ISO-8601 formatted date in UTC"""
+"""
+ISO-8601 formatted date in UTC
+"""
 scalar DateTime
 
-"""A money object - includes currency code and a money amount."""
+"""
+A money object - includes currency code and a money amount.
+"""
 type Money {
-  """Currency code of the current money."""
+  """
+  Currency code of the current money.
+  """
   currencyCode: String!
 
-  """The amount of money."""
+  """
+  The amount of money.
+  """
   value: BigDecimal!
 }
 
-"""An object with an ID."""
+"""
+An object with an ID.
+"""
 interface Node {
-  """The ID of the object."""
+  """
+  The ID of the object.
+  """
   id: ID!
 }
 
-"""Information about pagination in a connection."""
+"""
+Information about pagination in a connection.
+"""
 type PageInfo {
-  """When paginating forwards, are there more items?"""
+  """
+  When paginating forwards, are there more items?
+  """
   hasNextPage: Boolean!
 
-  """When paginating backwards, are there more items?"""
+  """
+  When paginating backwards, are there more items?
+  """
   hasPreviousPage: Boolean!
 
-  """When paginating backwards, the cursor to continue."""
+  """
+  When paginating backwards, the cursor to continue.
+  """
   startCursor: String
 
-  """When paginating forwards, the cursor to continue."""
+  """
+  When paginating forwards, the cursor to continue.
+  """
   endCursor: String
 }
 
 type Query {
-  """An account."""
+  """
+  An account.
+  """
   account: Account!
 
-  """Fetches an object given its ID."""
+  """
+  Fetches an object given its ID.
+  """
   node(
-    """The ID of the object."""
+    """
+    The ID of the object.
+    """
     id: ID!
   ): Node
 
-  """Fetches objects given their IDs."""
+  """
+  Fetches objects given their IDs.
+  """
   nodes(
-    """The IDs of the objects."""
+    """
+    The IDs of the objects.
+    """
     ids: [ID!]!
   ): [Node]!
 
-  """System settings."""
+  """
+  System settings.
+  """
   system: System!
 }
 
-"""A store related to an account."""
+"""
+A store related to an account.
+"""
 type Store {
-  """The ID of the object."""
+  """
+  The ID of the object.
+  """
   id: ID!
 
-  """The list of store apps."""
+  """
+  The list of store apps.
+  """
   apps(before: String, after: String, first: Int, last: Int): AppsConnection!
 
-  """The store name for the store."""
+  """
+  The store name for the store.
+  """
   name: String!
 
-  """The store hash for the store."""
+  """
+  The store hash for the store.
+  """
   storeHash: String!
 
-  """Users belonging to the store."""
-  users(before: String, after: String, first: Int, last: Int): StoreUserConnection!
+  """
+  Users belonging to the store.
+  """
+  users(
+    before: String
+    after: String
+    first: Int
+    last: Int
+  ): StoreUserConnection!
 }
 
-"""A connection to a list of items."""
+"""
+A connection to a list of items.
+"""
 type StoreConnection {
-  """Information to aid in pagination."""
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
 
-  """A list of edges."""
+  """
+  A list of edges.
+  """
   edges: [StoreEdge]
 }
 
-"""An edge in a connection."""
+"""
+An edge in a connection.
+"""
 type StoreEdge {
-  """The item at the end of the edge."""
+  """
+  The item at the end of the edge.
+  """
   node: Store!
 
-  """A cursor for use in pagination."""
+  """
+  A cursor for use in pagination.
+  """
   cursor: String!
 }
 
-"""The input needed to filter stores."""
+"""
+The input needed to filter stores.
+"""
 input StoreFilterInput {
-  """The ID of the stores."""
+  """
+  The ID of the stores.
+  """
   ids: [ID!]
 
-  """The store hashes."""
+  """
+  The store hashes.
+  """
   storeHashes: [String!]
 }
 
-"""A user belonging to a store."""
+"""
+A user belonging to a store.
+"""
 type StoreUser {
-  """The ID of the object."""
+  """
+  The ID of the object.
+  """
   id: ID!
 
-  """Apps accessible by the user on the store."""
+  """
+  Apps accessible by the user on the store.
+  """
   apps(before: String, after: String, first: Int, last: Int): AppsConnection!
 
-  """The email for the user."""
+  """
+  The email for the user.
+  """
   email: String!
 
-  """First name."""
+  """
+  First name.
+  """
   firstName: String!
 
-  """When the user last logged in."""
+  """
+  When the user last logged in.
+  """
   lastLoginAt: DateTime
 
-  """Last name."""
+  """
+  Last name.
+  """
   lastName: String!
 
-  """User preferred locale."""
+  """
+  User preferred locale.
+  """
   locale: String!
 
-  """The permissions for the user on the store."""
+  """
+  The permissions for the user on the store.
+  """
   permissions: [String!]!
 
-  """Current status of the user for the store."""
+  """
+  Current status of the user for the store.
+  """
   status: StoreUserStatus
 
-  """When was the user last updated."""
+  """
+  When was the user last updated.
+  """
   updatedAt: DateTime
 }
 
-"""A connection to a list of items."""
+"""
+A connection to a list of items.
+"""
 type StoreUserConnection {
-  """Information to aid in pagination."""
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
 
-  """A list of edges."""
+  """
+  A list of edges.
+  """
   edges: [StoreUserEdge]
 
-  """Collection details."""
+  """
+  Collection details.
+  """
   collectionInfo: CollectionInfo
 }
 
-"""An edge in a connection."""
+"""
+An edge in a connection.
+"""
 type StoreUserEdge {
-  """The item at the end of the edge."""
+  """
+  The item at the end of the edge.
+  """
   node: StoreUser!
 
-  """A cursor for use in pagination."""
+  """
+  A cursor for use in pagination.
+  """
   cursor: String!
 }
 
-"""The status of the user on the store."""
+"""
+The status of the user on the store.
+"""
 enum StoreUserStatus {
-  """The user is active."""
+  """
+  The user is active.
+  """
   ACTIVE
 
-  """The user is inactive."""
+  """
+  The user is inactive.
+  """
   INACTIVE
 }
 
@@ -1045,10 +1525,14 @@ enum StoreUserStatus {
 A one-time or recurring charge for a Product created as a result of a Merchant completing a Checkout.
 """
 type Subscription implements Node {
-  """The ID of the object."""
+  """
+  The ID of the object.
+  """
   id: ID!
 
-  """ID of the account associated with the subscription."""
+  """
+  ID of the account associated with the subscription.
+  """
   accountId: ID!
 
   """
@@ -1056,32 +1540,50 @@ type Subscription implements Node {
   """
   activationDate: DateTime!
 
-  """The frequency of charges for the Merchant."""
+  """
+  The frequency of charges for the Merchant.
+  """
   billingInterval: SubscriptionBillingInterval!
 
-  """The date the subscription was created."""
+  """
+  The date the subscription was created.
+  """
   createdAt: DateTime!
 
-  """The end of the current billing interval for the Merchant."""
+  """
+  The end of the current billing interval for the Merchant.
+  """
   currentPeriodEnd: DateTime
 
-  """The price the Merchant pays each billing interval."""
+  """
+  The price the Merchant pays each billing interval.
+  """
   pricePerInterval: Money
 
-  """The product the Merchant is entitled to with this Subscription."""
+  """
+  The product the Merchant is entitled to with this Subscription.
+  """
   product: SubscriptionProduct!
 
-  """The status of this subscription."""
+  """
+  The status of this subscription.
+  """
   status: SubscriptionStatus
 
-  """The scope of the subscription."""
+  """
+  The scope of the subscription.
+  """
   scope: SubscriptionScope!
 
-  """The date the subscription was last updated."""
+  """
+  The date the subscription was last updated.
+  """
   updatedAt: DateTime!
 }
 
-"""The frequency of charges for a Merchant."""
+"""
+The frequency of charges for a Merchant.
+"""
 enum SubscriptionBillingInterval {
   """
   The Merchant will be billed on a recurring basis each year on their Account's billing day.
@@ -1098,7 +1600,9 @@ enum SubscriptionBillingInterval {
   """
   NONE
 
-  """The Merchant will be billed only once."""
+  """
+  The Merchant will be billed only once.
+  """
   ONCE
 
   """
@@ -1112,53 +1616,85 @@ enum SubscriptionBillingInterval {
   SEMIANNUAL
 }
 
-"""A connection to a list of subscriptions."""
+"""
+A connection to a list of subscriptions.
+"""
 type SubscriptionConnection {
-  """Information to aid in pagination."""
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
 
-  """A list of subscription edges."""
+  """
+  A list of subscription edges.
+  """
   edges: [SubscriptionEdge]
 }
 
-"""An edge in a connection."""
+"""
+An edge in a connection.
+"""
 type SubscriptionEdge {
-  """The item at the end of the edge."""
+  """
+  The item at the end of the edge.
+  """
   node: Subscription!
 
-  """A cursor for use in pagination."""
+  """
+  A cursor for use in pagination.
+  """
   cursor: String!
 }
 
 input SubscriptionFiltersInput {
-  """A list of subscription IDs for filtering the query."""
+  """
+  A list of subscription IDs for filtering the query.
+  """
   ids: [ID!]
 
-  """A product ID for filtering the query."""
+  """
+  A product ID for filtering the query.
+  """
   productId: ID
 
-  """A product type for filtering the query."""
+  """
+  A product type for filtering the query.
+  """
   productType: SubscriptionProductType
 
-  """A scope ID for filtering the query."""
+  """
+  A scope ID for filtering the query.
+  """
   scopeId: ID
 
-  """A scope type for filtering the query."""
+  """
+  A scope type for filtering the query.
+  """
   scopeType: SubscriptionScopeType
 
-  """A status for filtering the query."""
+  """
+  A status for filtering the query.
+  """
   status: SubscriptionStatus
 
-  """A date for filtering the query."""
+  """
+  A date for filtering the query.
+  """
   updatedAfter: DateTime
 }
 
-"""The product the Merchant is entitled to with this Subscription."""
+"""
+The product the Merchant is entitled to with this Subscription.
+"""
 type SubscriptionProduct {
-  """The unique ID of the product."""
+  """
+  The unique ID of the product.
+  """
   id: ID!
 
-  """The type of product (e.g. APP)."""
+  """
+  The type of product (e.g. APP).
+  """
   type: SubscriptionProductType
 
   """
@@ -1167,31 +1703,49 @@ type SubscriptionProduct {
   productLevel: String!
 }
 
-"""The product the Merchant purchased."""
+"""
+The product the Merchant purchased.
+"""
 enum SubscriptionProductType {
-  """Type for applications available in the BigCommerce App Marketplace."""
+  """
+  Type for applications available in the BigCommerce App Marketplace.
+  """
   APPLICATION
 
-  """This product type is not supported"""
+  """
+  This product type is not supported
+  """
   NONE
 }
 
-"""The scope of the subscription."""
+"""
+The scope of the subscription.
+"""
 type SubscriptionScope {
-  """The unique ID of the scope."""
+  """
+  The unique ID of the scope.
+  """
   id: ID!
 
-  """The type of scope (e.g. STORE)."""
+  """
+  The type of scope (e.g. STORE).
+  """
   type: SubscriptionScopeType
 }
 
-"""The type of scope of the subscription."""
+"""
+The type of scope of the subscription.
+"""
 enum SubscriptionScopeType {
-  """The subscription is scoped to a store."""
+  """
+  The subscription is scoped to a store.
+  """
   STORE
 }
 
-"""The current status of the Subscription."""
+"""
+The current status of the Subscription.
+"""
 enum SubscriptionStatus {
   """
   The Subscription is active and will continue billing the Merchant according to its pricing plan.
@@ -1209,48 +1763,78 @@ enum SubscriptionStatus {
   SUSPENDED
 }
 
-"""System settings."""
+"""
+System settings.
+"""
 type System {
-  """The current time."""
+  """
+  The current time.
+  """
   time: Long!
 }
 
-"""A user belonging to an account."""
+"""
+A user belonging to an account.
+"""
 type User {
-  """The ID of the object."""
+  """
+  The ID of the object.
+  """
   id: ID!
 
-  """The email for the user."""
+  """
+  The email for the user.
+  """
   email: String!
 
-  """First name."""
+  """
+  First name.
+  """
   firstName: String!
 
-  """Last name."""
+  """
+  Last name.
+  """
   lastName: String!
 
-  """User preferred locale."""
+  """
+  User preferred locale.
+  """
   locale: String!
 }
 
-"""A connection to a list of items."""
+"""
+A connection to a list of items.
+"""
 type UserConnection {
-  """Information to aid in pagination."""
+  """
+  Information to aid in pagination.
+  """
   pageInfo: PageInfo!
 
-  """A list of edges."""
+  """
+  A list of edges.
+  """
   edges: [UserEdge]
 
-  """Collection details."""
+  """
+  Collection details.
+  """
   collectionInfo: CollectionInfo
 }
 
-"""An edge in a connection."""
+"""
+An edge in a connection.
+"""
 type UserEdge {
-  """The item at the end of the edge."""
+  """
+  The item at the end of the edge.
+  """
   node: User!
 
-  """A cursor for use in pagination."""
+  """
+  A cursor for use in pagination.
+  """
   cursor: String!
 }
 
