@@ -10,7 +10,11 @@
     "test": "jest --updateSnapshot",
     "lint": "eslint . --ext .ts,.tsx,.js",
     "db:setup": "node scripts/db.js",
-    "generate-schema": "node scripts/generate-schema.mjs"
+    "generate-schema": "node scripts/generate-schema.mjs",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js}": "prettier --write"
   },
   "keywords": [],
   "author": "",
@@ -59,8 +63,11 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-react": "^7.30.1",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^9.1.7",
     "jest": "^28.1.2",
     "jest-environment-jsdom": "^28.1.2",
+    "lint-staged": "^15.5.2",
+    "prettier": "^3.8.3",
     "typescript": "^5.9.3"
   }
 }

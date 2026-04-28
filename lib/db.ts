@@ -1,3 +1,3 @@
-import * as sqliteDB from './dbs/sqlite';
+import * as sqliteDB from './dbs/sqlite'
 
-export default sqliteDB;
+export default sqliteDB
