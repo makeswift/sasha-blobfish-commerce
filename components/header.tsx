@@ -1,6 +1,8 @@
-import { Box, Tabs } from '@bigcommerce/big-design';
+import { Box, Tabs, Text } from '@bigcommerce/big-design';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { useGqlCheck } from '../lib/hooks';
 import InnerHeader from './innerHeader';
 
 export const TabIds = {
@@ -30,8 +32,12 @@ const HeaderTypes = {
     HEADERLESS: 'headerless',
 };
 
+const dotColor = { ok: '#3d9970', error: '#e84040', checking: '#aaaaaa' };
+const dotLabel = { ok: 'BigCommerce API connected', error: 'BigCommerce API unreachable', checking: 'Checking BigCommerce API…' };
+
 const Header = () => {
     const [activeTab, setActiveTab] = useState<string>('');
+    const { status } = useGqlCheck();
     const [headerType, setHeaderType] = useState<string>(HeaderTypes.GLOBAL);
     const router = useRouter();
     const { pathname } = router;
@@ -73,14 +79,39 @@ const Header = () => {
     if (headerType === HeaderTypes.INNER) return <InnerHeader />;
 
     return (
-        <Box marginBottom="xxLarge">
+        <HeaderWrapper marginBottom="xxLarge">
             <Tabs
                 activeTab={activeTab}
                 items={items}
                 onTabClick={handleTabClick}
             />
-        </Box>
+            <StatusBadge>
+                <Dot color={dotColor[status]} />
+                <Text marginBottom="none">{dotLabel[status]}</Text>
+            </StatusBadge>
+        </HeaderWrapper>
     );
 };
+
+const HeaderWrapper = styled(Box)`
+    position: relative;
+`;
+
+const StatusBadge = styled.div`
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+`;
+
+const Dot = styled.span<{ color: string }>`
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: ${p => p.color};
+    margin-right: 8px;
+    flex-shrink: 0;
+`;
 
 export default Header;

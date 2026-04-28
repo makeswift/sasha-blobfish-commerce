@@ -16,6 +16,12 @@ async function fetcher(url: string, query: string) {
     return res.json();
 }
 
+async function simpleFetcher(url: string) {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`${res.status}`);
+    return res.json();
+}
+
 // Reusable SWR hooks
 // https://swr.vercel.app/
 export function useProducts() {
@@ -80,6 +86,12 @@ export const useOrder = (orderId: number) => {
         isLoading: !data && !error,
         error,
     };
+}
+
+export function useGqlCheck() {
+    const { data, error } = useSWR('/api/gql-check', simpleFetcher);
+    const status = !data && !error ? 'checking' : error ? 'error' : 'ok';
+    return { status };
 }
 
 export const useShippingAndProductsInfo = (orderId: number) => {
