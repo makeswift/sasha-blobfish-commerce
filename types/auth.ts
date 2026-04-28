@@ -6,6 +6,7 @@ export interface User {
 
 export interface SessionProps {
   access_token?: string
+  account_uuid?: string
   context: string
   owner?: User
   scope?: string

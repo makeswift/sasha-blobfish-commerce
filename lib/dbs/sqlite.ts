@@ -6,10 +6,11 @@ const db = new BetterSqlite3(path.join(process.cwd(), 'blobfish.db'))
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS stores (
-      store_hash  TEXT PRIMARY KEY,
+      store_hash   TEXT PRIMARY KEY,
       access_token TEXT,
-      scope       TEXT,
-      admin_id    INTEGER
+      account_uuid TEXT,
+      scope        TEXT,
+      admin_id     INTEGER
   );
   CREATE TABLE IF NOT EXISTS store_users (
       user_id     TEXT NOT NULL,
@@ -23,6 +24,13 @@ db.exec(`
       username    TEXT
   );
 `)
+
+const storeColumns = (
+  db.prepare('PRAGMA table_info(stores)').all() as { name: string }[]
+).map((c) => c.name)
+if (!storeColumns.includes('account_uuid')) {
+  db.exec('ALTER TABLE stores ADD COLUMN account_uuid TEXT')
+}
 
 function getStoreHash(session: SessionProps) {
   const contextString = session.context ?? session.sub
@@ -45,6 +53,7 @@ export async function setUser({ user }: SessionProps) {
 export async function setStore(session: SessionProps) {
   const {
     access_token: accessToken,
+    account_uuid: accountUuid,
     context,
     scope,
     user: { id },
@@ -53,11 +62,15 @@ export async function setStore(session: SessionProps) {
   const storeHash = context?.split('/')[1] || ''
   db.prepare(
     `
-    INSERT INTO stores (store_hash, access_token, scope, admin_id)
-    VALUES (?, ?, ?, ?)
-    ON CONFLICT(store_hash) DO UPDATE SET access_token = excluded.access_token, scope = excluded.scope, admin_id = excluded.admin_id
+    INSERT INTO stores (store_hash, access_token, account_uuid, scope, admin_id)
+    VALUES (?, ?, ?, ?, ?)
+    ON CONFLICT(store_hash) DO UPDATE SET
+        access_token = excluded.access_token,
+        account_uuid = excluded.account_uuid,
+        scope        = excluded.scope,
+        admin_id     = excluded.admin_id
     `
-  ).run(storeHash, accessToken, scope, id)
+  ).run(storeHash, accessToken, accountUuid ?? null, scope, id)
 }
 
 export async function setStoreUser(session: SessionProps) {
@@ -85,6 +98,15 @@ export async function hasStoreUser(storeHash: string, userId: string) {
     .get(userId, storeHash)
 
   return row !== undefined
+}
+
+export async function getStoreAccountUuid(storeHash: string) {
+  if (!storeHash) return null
+  const row = db
+    .prepare('SELECT account_uuid FROM stores WHERE store_hash = ?')
+    .get(storeHash) as { account_uuid: string | null } | undefined
+
+  return row?.account_uuid ?? null
 }
 
 export async function getStoreToken(storeHash: string) {

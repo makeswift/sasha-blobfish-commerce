@@ -7,11 +7,13 @@ import InnerHeader from './innerHeader'
 
 export const TabIds = {
   HOME: 'home',
+  PLANS: 'plans',
   PRODUCTS: 'products',
 }
 
 export const TabRoutes = {
   [TabIds.HOME]: '/',
+  [TabIds.PLANS]: '/plans',
   [TabIds.PRODUCTS]: '/products',
 }
 
@@ -39,6 +41,7 @@ const dotLabel = {
 
 const Header = () => {
   const [activeTab, setActiveTab] = useState<string>('')
+  const [flipping, setFlipping] = useState(false)
   const { status } = useGqlCheck()
   const [headerType, setHeaderType] = useState<string>(HeaderTypes.GLOBAL)
   const router = useRouter()
@@ -46,30 +49,27 @@ const Header = () => {
 
   useEffect(() => {
     if (InnerRoutes.includes(pathname)) {
-      // Use InnerHeader if route matches inner routes
       setHeaderType(HeaderTypes.INNER)
     } else if (HeaderlessRoutes.includes(pathname)) {
       setHeaderType(HeaderTypes.HEADERLESS)
     } else {
-      // Check if new route matches TabRoutes
       const tabKey = Object.keys(TabRoutes).find(
         (key) => TabRoutes[key] === pathname
       )
-
-      // Set the active tab to tabKey or set no active tab if route doesn't match (404)
       setActiveTab(tabKey ?? '')
       setHeaderType(HeaderTypes.GLOBAL)
     }
   }, [pathname])
 
   useEffect(() => {
-    // Prefetch products page to reduce latency (doesn't prefetch in dev)
     router.prefetch('/products')
+    router.prefetch('/plans')
   })
 
   const items = [
     { ariaControls: 'home', id: TabIds.HOME, title: 'Home' },
     { ariaControls: 'products', id: TabIds.PRODUCTS, title: 'Products' },
+    { ariaControls: 'plans', id: TabIds.PLANS, title: 'Plans' },
   ]
 
   const handleTabClick = (tabId: string) => {
@@ -84,6 +84,15 @@ const Header = () => {
   return (
     <HeaderWrapper marginBottom="xxLarge">
       <Tabs activeTab={activeTab} items={items} onTabClick={handleTabClick} />
+      <LogoCircle
+        $flipping={flipping}
+        onClick={() => setFlipping(true)}
+        onAnimationEnd={() => setFlipping(false)}
+      >
+        <LogoInner>
+          <BlobfishLogo src="/blobfish.png" alt="Blobfish" />
+        </LogoInner>
+      </LogoCircle>
       <StatusBadge>
         <Dot color={dotColor[status]} />
         <Text marginBottom="none">{dotLabel[status]}</Text>
@@ -94,6 +103,61 @@ const Header = () => {
 
 const HeaderWrapper = styled(Box)`
   position: relative;
+`
+
+const LogoCircle = styled.div<{ $flipping: boolean }>`
+  position: absolute;
+  top: -1.3rem;
+  left: calc(50% - 36px);
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  padding: 3px;
+  background: conic-gradient(
+    from 200deg,
+    #707070,
+    #c0c0c0,
+    #ffffff 30%,
+    #c0c0c0,
+    #808080,
+    #707070
+  );
+  cursor: pointer;
+  perspective: 400px;
+  ${({ $flipping }) => $flipping && `animation: coinFlip 0.6s ease-in-out;`}
+
+  @keyframes coinFlip {
+    0% {
+      transform: rotateY(0deg);
+    }
+    100% {
+      transform: rotateY(360deg);
+    }
+  }
+`
+
+const LogoInner = styled.div`
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 200deg,
+    #5a5a5a,
+    #b0b0b0,
+    #f0f0f0 30%,
+    #b0b0b0,
+    #686868,
+    #5a5a5a
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+const BlobfishLogo = styled.img`
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
 `
 
 const StatusBadge = styled.div`

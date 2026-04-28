@@ -2,6 +2,7 @@ import { SessionProps } from './index'
 
 export interface StoreData {
   accessToken?: string
+  accountUuid?: string
   scope?: string
   storeHash: string
 }
@@ -17,6 +18,7 @@ export interface Db {
   setStore(session: SessionProps): Promise<void>
   setStoreUser(session: SessionProps): Promise<void>
   getStoreToken(storeId: string): Promise<string> | null
+  getStoreAccountUuid(storeHash: string): Promise<string | null> | null
   deleteStore(session: SessionProps): Promise<void>
   deleteUser(session: SessionProps): Promise<void>
 }

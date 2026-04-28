@@ -86,8 +86,9 @@ export async function getSession({ query: { context = '' } }: NextApiRequest) {
   }
 
   const accessToken = await db.getStoreToken(storeHash)
+  const accountUuid = await db.getStoreAccountUuid(storeHash)
 
-  return { accessToken, storeHash, user }
+  return { accessToken, accountUuid, storeHash, user }
 }
 
 // JWT functions to sign/ verify 'context' query param from /api/auth||load

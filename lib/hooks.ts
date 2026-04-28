@@ -6,6 +6,7 @@ import {
   Order,
   QueryParams,
   ShippingAndProductsInfo,
+  Subscription,
 } from '../types'
 
 async function fetcher(url: string, query: string) {
@@ -27,6 +28,7 @@ async function fetcher(url: string, query: string) {
 async function simpleFetcher(url: string) {
   const res = await fetch(url)
   if (!res.ok) throw new Error(`${res.status}`)
+
   return res.json()
 }
 
@@ -112,7 +114,24 @@ export const useOrder = (orderId: number) => {
 export function useGqlCheck() {
   const { data, error } = useSWR('/api/gql-check', simpleFetcher)
   const status = !data && !error ? 'checking' : error ? 'error' : 'ok'
+
   return { status }
+}
+
+export function useSubscription() {
+  const { context } = useSession()
+  const params = new URLSearchParams({ context }).toString()
+  const { data, error, mutate } = useSWR<
+    { subscription: Subscription | null },
+    ErrorProps
+  >(context ? ['/api/billing/subscription', params] : null, fetcher)
+
+  return {
+    subscription: data?.subscription ?? null,
+    isLoading: !data && !error,
+    error,
+    mutate,
+  }
 }
 
 export const useShippingAndProductsInfo = (orderId: number) => {
