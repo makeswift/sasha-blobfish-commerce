@@ -24,6 +24,7 @@ const Plans = () => {
   const { context } = useSession()
   const { subscription, isLoading, error, mutate } = useSubscription()
   const [loadingPlanId, setLoadingPlanId] = useState<string | null>(null)
+  const [isCancelling, setIsCancelling] = useState(false)
   const [actionError, setActionError] = useState<string | null>(null)
   const alerts = useAlerts()
 
@@ -79,8 +80,9 @@ const Plans = () => {
   }
 
   const handleCancel = async () => {
-    if (!subscription) return
+    if (!subscription || isCancelling) return
     setActionError(null)
+    setIsCancelling(true)
     try {
       const res = await fetch(`/api/billing/subscription?context=${context}`, {
         method: 'DELETE',
@@ -92,12 +94,14 @@ const Plans = () => {
       mutate()
     } catch (err) {
       setActionError(err.message)
+    } finally {
+      setIsCancelling(false)
     }
   }
 
   const getButtonLabel = (plan: Plan) => {
     if (plan.productLevel === currentLevel) return 'Current plan'
-    if (subscription?.status === 'ACTIVE') return `Switch to ${plan.name}`
+    if (subscription?.status === 'ACTIVE') return 'Switch to plan'
 
     return 'Select plan'
   }
@@ -118,6 +122,15 @@ const Plans = () => {
             'You are not yet subscribed.'
           )}
         </CurrentPlanBadge>
+
+        {subscription && (
+          <SubscriptionStatus
+            subscription={subscription}
+            onCancel={handleCancel}
+            isCancelling={isCancelling}
+          />
+        )}
+
         <Text marginBottom="xLarge">
           Choose the plan that works for your store.
         </Text>
@@ -186,13 +199,6 @@ const Plans = () => {
           ))}
         </Flex>
 
-        {subscription && (
-          <SubscriptionStatus
-            subscription={subscription}
-            onCancel={handleCancel}
-          />
-        )}
-
         {actionError && (
           <ErrorPanel
             error={actionError}
@@ -207,9 +213,11 @@ const Plans = () => {
 const SubscriptionStatus = ({
   subscription,
   onCancel,
+  isCancelling,
 }: {
   subscription: Subscription
   onCancel: () => void
+  isCancelling: boolean
 }) => {
   const isCancelledWithAccess =
     subscription.status === 'CANCELLED' &&
@@ -225,7 +233,12 @@ const SubscriptionStatus = ({
   }
 
   return (
-    <Box marginTop="xxLarge" padding="large" border="box" borderRadius="normal">
+    <Box
+      marginBottom="xxLarge"
+      padding="large"
+      border="box"
+      borderRadius="normal"
+    >
       <H4 marginBottom="medium">Current subscription</H4>
       <Flex>
         <StatusField label="Plan" value={subscription.product.productLevel} />
@@ -242,7 +255,13 @@ const SubscriptionStatus = ({
         />
       </Flex>
       {subscription.status === 'ACTIVE' && (
-        <Button variant="subtle" onClick={onCancel} marginTop="medium">
+        <Button
+          variant="subtle"
+          onClick={onCancel}
+          isLoading={isCancelling}
+          disabled={isCancelling}
+          marginTop="medium"
+        >
           Cancel subscription
         </Button>
       )}
