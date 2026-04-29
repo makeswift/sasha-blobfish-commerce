@@ -23,7 +23,7 @@ const SECTIONS: DocSection[] = [
       },
       {
         label: 'GraphQL Account API: Unified Billing',
-        url: 'https://developer.bigcommerce.com/docs/integrations/apps/unified-billing/example-queries',
+        url: 'https://docs.bigcommerce.com/developer/docs/integrations/apps/unified-billing/example-queries-and-mutations',
         description:
           'Example queries and mutations for subscriptions, checkouts, and charges.',
       },
