@@ -9,6 +9,7 @@ export const TabIds = {
   HOME: 'home',
   PLANS: 'plans',
   PRODUCTS: 'products',
+  CHECKOUTS: 'checkouts',
   DOCS: 'docs',
 }
 
@@ -16,6 +17,7 @@ export const TabRoutes = {
   [TabIds.HOME]: '/',
   [TabIds.PLANS]: '/plans',
   [TabIds.PRODUCTS]: '/products',
+  [TabIds.CHECKOUTS]: '/checkouts',
   [TabIds.DOCS]: '/docs',
 }
 
@@ -66,6 +68,7 @@ const Header = () => {
   useEffect(() => {
     router.prefetch('/products')
     router.prefetch('/plans')
+    router.prefetch('/checkouts')
     router.prefetch('/docs')
   })
 
@@ -73,6 +76,7 @@ const Header = () => {
     { ariaControls: 'home', id: TabIds.HOME, title: 'Home' },
     { ariaControls: 'products', id: TabIds.PRODUCTS, title: 'Products' },
     { ariaControls: 'plans', id: TabIds.PLANS, title: 'Plans' },
+    { ariaControls: 'checkouts', id: TabIds.CHECKOUTS, title: 'Checkouts' },
     { ariaControls: 'docs', id: TabIds.DOCS, title: 'Docs' },
   ]
 

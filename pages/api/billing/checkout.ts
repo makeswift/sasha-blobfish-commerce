@@ -1,10 +1,16 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { accountClient } from '../../../lib/account-client'
 import { getSession } from '../../../lib/auth'
+import db from '../../../lib/db'
 import { graphql } from '../../../lib/graphql'
 import { PLANS } from '../../../lib/plans'
 
-const { APP_URL, BC_APP_PRODUCT_ID } = process.env
+const { BC_APP_PRODUCT_ID, ENVIRONMENT } = process.env
+
+const storeHostDomain =
+  ENVIRONMENT === 'bigcommerce.zone'
+    ? 'my-integration.zone'
+    : 'mybigcommerce.com'
 
 const CreateCheckoutMutation = graphql(`
   mutation CreateCheckout($checkout: CreateCheckoutInput!) {
@@ -52,7 +58,7 @@ export default async function handler(
         price: { value: plan.price, currencyCode: 'USD' },
       },
       description: `Blobfish Commerce ${plan.name} Plan`,
-      redirectUrl: `${APP_URL}/plans`,
+      redirectUrl: `https://store-${storeHash}.${storeHostDomain}/manage/app/${BC_APP_PRODUCT_ID}`,
     }
 
     if (subscriptionId) item.subscriptionId = subscriptionId
@@ -65,6 +71,15 @@ export default async function handler(
     })
 
     const checkout = data?.checkout?.createCheckout?.checkout
+
+    if (checkout?.id && checkout?.checkoutUrl) {
+      await db.saveCheckout(
+        checkout.id,
+        storeHash,
+        planId,
+        checkout.checkoutUrl
+      )
+    }
 
     return res.status(200).json({
       checkoutId: checkout?.id,

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { graphql } from '../../lib/graphql'
 import { accountClient } from '../../lib/account-client'
+import { graphql } from '../../lib/graphql'
 
 const AccountQuery = graphql(`
   query GqlCheck {

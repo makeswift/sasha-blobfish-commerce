@@ -1,6 +1,7 @@
 import useSWR from 'swr'
 import { useSession } from '../context/session'
 import {
+  CheckoutRecord,
   ErrorProps,
   ListItem,
   Order,
@@ -112,7 +113,9 @@ export const useOrder = (orderId: number) => {
 }
 
 export function useGqlCheck() {
-  const { data, error } = useSWR('/api/gql-check', simpleFetcher)
+  const { data, error } = useSWR('/api/gql-check', simpleFetcher, {
+    revalidateOnFocus: false,
+  })
   const status = !data && !error ? 'checking' : error ? 'error' : 'ok'
 
   return { status }
@@ -147,6 +150,21 @@ export const useShippingAndProductsInfo = (orderId: number) => {
 
   return {
     order: data,
+    isLoading: !data && !error,
+    error,
+  }
+}
+
+export function useCheckouts() {
+  const { context } = useSession()
+  const params = new URLSearchParams({ context }).toString()
+  const { data, error } = useSWR<{ checkouts: CheckoutRecord[] }, ErrorProps>(
+    context ? ['/api/billing/checkouts', params] : null,
+    fetcher
+  )
+
+  return {
+    checkouts: data?.checkouts ?? [],
     isLoading: !data && !error,
     error,
   }

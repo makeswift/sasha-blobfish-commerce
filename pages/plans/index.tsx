@@ -60,7 +60,18 @@ const Plans = () => {
       })
       const body = await res.json()
       if (!res.ok) throw new Error(JSON.stringify(body, null, 2))
-      window.location.href = body.checkoutUrl
+      const popup = window.open(body.checkoutUrl, '_blank')
+      if (popup) {
+        const timer = setInterval(() => {
+          if (popup.closed) {
+            clearInterval(timer)
+            setLoadingPlanId(null)
+            mutate()
+          }
+        }, 500)
+      } else {
+        setLoadingPlanId(null)
+      }
     } catch (err) {
       setActionError(err.message)
       setLoadingPlanId(null)

@@ -23,6 +23,14 @@ db.exec(`
       email       TEXT,
       username    TEXT
   );
+  CREATE TABLE IF NOT EXISTS checkouts (
+      id           TEXT PRIMARY KEY,
+      store_hash   TEXT NOT NULL,
+      plan_id      TEXT NOT NULL,
+      status       TEXT NOT NULL DEFAULT 'PENDING',
+      checkout_url TEXT NOT NULL,
+      created_at   INTEGER NOT NULL DEFAULT (unixepoch())
+  );
 `)
 
 const storeColumns = (
@@ -128,4 +136,38 @@ export async function deleteUser({ context, user, sub }: SessionProps) {
   db.prepare(
     'DELETE FROM store_users WHERE user_id = ? AND store_hash = ?'
   ).run(String(user?.id), storeHash)
+}
+
+export interface CheckoutRecord {
+  id: string
+  store_hash: string
+  plan_id: string
+  status: string
+  checkout_url: string
+  created_at: number
+}
+
+export async function saveCheckout(
+  id: string,
+  storeHash: string,
+  planId: string,
+  checkoutUrl: string
+) {
+  db.prepare(
+    `INSERT INTO checkouts (id, store_hash, plan_id, checkout_url)
+     VALUES (?, ?, ?, ?)
+     ON CONFLICT(id) DO NOTHING`
+  ).run(id, storeHash, planId, checkoutUrl)
+}
+
+export async function updateCheckoutStatus(id: string, status: string) {
+  db.prepare('UPDATE checkouts SET status = ? WHERE id = ?').run(status, id)
+}
+
+export async function getCheckoutsByStore(storeHash: string) {
+  return db
+    .prepare(
+      'SELECT * FROM checkouts WHERE store_hash = ? ORDER BY created_at DESC'
+    )
+    .all(storeHash) as CheckoutRecord[]
 }
