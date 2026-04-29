@@ -9,12 +9,14 @@ export const TabIds = {
   HOME: 'home',
   PLANS: 'plans',
   PRODUCTS: 'products',
+  DOCS: 'docs',
 }
 
 export const TabRoutes = {
   [TabIds.HOME]: '/',
   [TabIds.PLANS]: '/plans',
   [TabIds.PRODUCTS]: '/products',
+  [TabIds.DOCS]: '/docs',
 }
 
 const HeaderlessRoutes = [
@@ -64,12 +66,14 @@ const Header = () => {
   useEffect(() => {
     router.prefetch('/products')
     router.prefetch('/plans')
+    router.prefetch('/docs')
   })
 
   const items = [
     { ariaControls: 'home', id: TabIds.HOME, title: 'Home' },
     { ariaControls: 'products', id: TabIds.PRODUCTS, title: 'Products' },
     { ariaControls: 'plans', id: TabIds.PLANS, title: 'Plans' },
+    { ariaControls: 'docs', id: TabIds.DOCS, title: 'Docs' },
   ]
 
   const handleTabClick = (tabId: string) => {
