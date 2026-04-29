@@ -42,7 +42,7 @@ export default async function handler(
 
     const item: Record<string, unknown> = {
       product: {
-        id: BC_APP_PRODUCT_ID,
+        id: `bc/account/product/${BC_APP_PRODUCT_ID}`,
         type: 'APPLICATION',
         productLevel: plan.productLevel,
       },
